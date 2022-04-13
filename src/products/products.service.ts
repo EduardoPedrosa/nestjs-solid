@@ -49,4 +49,12 @@ export class ProductsService implements ProductsServiceContract {
 
     return product;
   }
+
+  decreaseStock(id: string, quantity: number): void {
+    const product = this.productsRepository.findById(id);
+    if (!product) throw new Error('Product not found');
+    if (product.quantity < quantity) throw new Error('Product not available');
+
+    this.productsRepository.updateQuantity(id, product.quantity - quantity);
+  }
 }

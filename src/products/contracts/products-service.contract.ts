@@ -9,4 +9,5 @@ export abstract class ProductsServiceContract {
   abstract getProducts(): ProductDto[];
 
   abstract getProductById(id: string): ProductEntity;
+  abstract decreaseStock(id: string, quantity: number): void;
 }

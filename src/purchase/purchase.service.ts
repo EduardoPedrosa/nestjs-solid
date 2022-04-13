@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductsServiceContract } from 'src/products/contracts/products-service.contract';
 import { PurchaseRepositoryContract } from './contracts/purchase-repository.contract';
 import { PurchaseServiceContract } from './contracts/purchase-service.contract';
@@ -9,7 +9,7 @@ import { PurchaseEntity } from './entities/purchase.entity';
 @Injectable()
 export class PurchaseService implements PurchaseServiceContract {
   constructor(
-    @Inject() private productService: ProductsServiceContract,
+    private productService: ProductsServiceContract,
     private purchaseRepository: PurchaseRepositoryContract,
   ) {}
 
@@ -22,9 +22,14 @@ export class PurchaseService implements PurchaseServiceContract {
 
       const purchase = new PurchaseEntity(items);
 
+      items.forEach((item) => {
+        this.productService.decreaseStock(item.product.id, item.quantity);
+      });
+
       return this.purchaseRepository.create(purchase);
     } catch (error) {
       console.log(error);
+      throw new BadRequestException('Items not available');
     }
   }
 

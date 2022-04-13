@@ -6,4 +6,5 @@ export abstract class ProductsRepositoryContract {
   abstract create(newProduct: ProductEntity): ProductEntity;
   abstract find(): ProductEntity[];
   abstract findById(id: string): ProductEntity;
+  abstract updateQuantity(id: string, quantity: number): ProductEntity;
 }
