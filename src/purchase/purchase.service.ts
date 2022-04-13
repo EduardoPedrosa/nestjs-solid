@@ -28,7 +28,6 @@ export class PurchaseService implements PurchaseServiceContract {
 
       return this.purchaseRepository.create(purchase);
     } catch (error) {
-      console.log(error);
       throw new BadRequestException('Items not available');
     }
   }
