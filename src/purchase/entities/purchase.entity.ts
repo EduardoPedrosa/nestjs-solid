@@ -7,7 +7,7 @@ export class PurchaseEntity {
 
   constructor(public items: PurchaseItem[]) {
     this.items.forEach((item) => {
-      if (item.quantity > item.product.quantity) {
+      if (!item.product.isAvailable(item.quantity)) {
         throw new Error(
           `Item ${item.product.name} is not available for this quantity`,
         );
